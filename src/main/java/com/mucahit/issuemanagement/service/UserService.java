@@ -1,18 +1,20 @@
 package com.mucahit.issuemanagement.service;
 
+import com.mucahit.issuemanagement.dto.UserDto;
 import com.mucahit.issuemanagement.entity.Issue;
 import com.mucahit.issuemanagement.entity.User;
+import com.mucahit.issuemanagement.util.TPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface UserService {
-    User save(User user);
+    UserDto save(UserDto user);
 
-    User getById(Long id);
+    UserDto getById(Long id);
 
-    Page<User> getAllPageable(Pageable pageable);
+    TPage<UserDto> getAllPageable(Pageable pageable);
 
-    User getByUsername(String username);
+    UserDto getByUsername(String username);
 
 
 

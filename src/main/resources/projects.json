@@ -1,0 +1,28 @@
+[
+  {
+    "_class": "com.mucahit.issuemanagement.entity.Project",
+    "projectCode": "IM",
+    "projectName": "Issue Management Project"
+  },
+  {
+    "_class": "com.mucahit.issuemanagement.entity.Project",
+    "projectCode": "ERP-S",
+    "projectName": "ERP Project for Sales"
+  },
+  {
+    "_class": "com.mucahit.issuemanagement.entity.Project",
+    "projectCode": "CRM-S",
+    "projectName": "CRM Project for Sales"
+  },
+  {
+    "_class": "com.mucahit.issuemanagement.entity.User",
+    "nameSurname": "mucahit",
+    "email": "Boyraci@hotmail.com"
+  },
+  {
+    "_class": "com.mucahit.issuemanagement.entity.User",
+    "nameSurname": "BOYRACI",
+    "email": "Mucahit@gmail.com"
+  }
+
+]

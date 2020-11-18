@@ -2,9 +2,12 @@ package com.mucahit.issuemanagement.service.impl;
 
 import com.mucahit.issuemanagement.dto.IssueDto;
 import com.mucahit.issuemanagement.dto.ProjectDto;
+import com.mucahit.issuemanagement.dto.UserDto;
 import com.mucahit.issuemanagement.entity.Issue;
 import com.mucahit.issuemanagement.entity.Project;
+import com.mucahit.issuemanagement.entity.User;
 import com.mucahit.issuemanagement.repository.ProjectRepository;
+import com.mucahit.issuemanagement.repository.UserRepository;
 import com.mucahit.issuemanagement.service.ProjectService;
 import com.mucahit.issuemanagement.util.TPage;
 import org.modelmapper.ModelMapper;
@@ -20,9 +23,11 @@ import java.util.Objects;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository,ModelMapper modelMapper) {
+    public ProjectServiceImpl(ProjectRepository projectRepository,ModelMapper modelMapper,UserRepository userRepository) {
         this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
         this.modelMapper=modelMapper;
     }
 
@@ -35,6 +40,9 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("ProjectCode already exist");
         }
         Project p = modelMapper.map(project,Project.class);
+        User user = userRepository.getOne(project.getManagerId());
+        p.setManager(user);
+
         p = projectRepository.save(p);
         project.setId(p.getId());
         return project;
@@ -64,15 +72,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public TPage<ProjectDto> getAllPageable(Pageable pageable) {
-
         Page<Project> data = projectRepository.findAll(pageable);
-        TPage page = new TPage<ProjectDto>();
-        ProjectDto[]  dtos = modelMapper.map(data.getContent(),ProjectDto[].class);
-        page.setStat(data, Arrays.asList(dtos));
-
-        return page;
+        TPage<ProjectDto> respnose = new TPage<ProjectDto>();
+        respnose.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), ProjectDto[].class)));
+        return respnose;
     }
-
     @Override
     public Boolean delete(ProjectDto project) {
         Project p = modelMapper.map(project,Project.class);
@@ -106,5 +110,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         return modelMapper.map(projectDb,ProjectDto.class);
 
+    }
+
+    @Override
+    public List<ProjectDto> getAll() {
+        List<Project> data = projectRepository.findAll();
+        return Arrays.asList(modelMapper.map(data,ProjectDto[].class));
     }
 }

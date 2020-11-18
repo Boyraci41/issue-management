@@ -1,8 +1,6 @@
 package com.mucahit.issuemanagement.dto;
 
 import com.mucahit.issuemanagement.entity.IssueStatus;
-import com.mucahit.issuemanagement.entity.Project;
-import com.mucahit.issuemanagement.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IssueDto {
+public class   IssueUpdateDto{
     @ApiModelProperty(value = "Issue ID")
     private Long id;
     @ApiModelProperty(value = "Description of Issue",required = true)
@@ -24,9 +22,7 @@ public class IssueDto {
     @ApiModelProperty(value = "Status of Issue",required = true)
     private IssueStatus issueStatus;
     @ApiModelProperty(value = "User of Issue",required = true)
-    private UserDto assignee;
+    private Long assignee_id;
     @ApiModelProperty(value = "Project of Issue",required = true)
-    private ProjectDto project;
-    @ApiModelProperty(value = "Project Id of Issue",required = true)
     private Long project_id;
 }

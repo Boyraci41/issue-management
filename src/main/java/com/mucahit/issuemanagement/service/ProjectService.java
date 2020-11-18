@@ -24,4 +24,5 @@ public interface ProjectService {
     ProjectDto update(Long id,ProjectDto project);
 
 
+    List<ProjectDto> getAll();
 }

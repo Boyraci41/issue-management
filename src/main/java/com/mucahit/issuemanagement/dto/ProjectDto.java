@@ -23,4 +23,11 @@ public class ProjectDto {
     @NotNull
     @ApiModelProperty(required = true,value = "Name of Project")
     private String projectName;
+
+    @NotNull
+    @ApiModelProperty(required = true,value = "Project Manager ID")
+    private Long managerId;
+
+    @ApiModelProperty(required = true,value = "Project Manager Name")
+    private UserDto manager;
 }
