@@ -1,28 +1,36 @@
 package com.mucahit.issuemanagement.service.impl;
 
+import com.mucahit.issuemanagement.dto.RegistrationRequest;
 import com.mucahit.issuemanagement.dto.UserDto;
 import com.mucahit.issuemanagement.entity.User;
 import com.mucahit.issuemanagement.repository.UserRepository;
 import com.mucahit.issuemanagement.service.UserService;
 import com.mucahit.issuemanagement.util.TPage;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository,ModelMapper modelMapper) {
+
+    public UserServiceImpl(UserRepository userRepository,ModelMapper modelMapper,BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.bCryptPasswordEncoder=bCryptPasswordEncoder;
     }
 
     @Override
@@ -59,7 +67,18 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
-
+    public Boolean register(RegistrationRequest registrationRequest) {
+        try {
+            User user = new User();
+            user.setEmail(registrationRequest.getEmail());
+            user.setNameSurname(registrationRequest.getNameSurname());
+            user.setPassword(bCryptPasswordEncoder.encode(registrationRequest.getPassword()));
+            user.setUsername(registrationRequest.getUsername());
+            userRepository.save(user);
+            return Boolean.TRUE;
+        }catch (Exception e){
+            log.error("Registration =>");
+            return Boolean.FALSE;
+        }
+    }
 }
